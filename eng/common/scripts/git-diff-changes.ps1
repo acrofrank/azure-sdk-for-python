@@ -28,12 +28,12 @@ if ($TargetCommittish -eq "origin/") {
     return ""
 } 
 # Git PR diff: https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-comparing-branches-in-pull-requests#three-dot-and-two-dot-git-diff-comparisons
-$command = "git -c core.quotepath=off -c i18n.logoutputencoding=utf-8 diff `"$TargetCommittish...$SourceCommittish`"  --name-only --diff-filter=d"
+$command = "git -c core.quotepath=off -c i18n.logoutputencoding=utf-8 diff `"$TargetCommittish...$SourceCommittish`" --name-only --diff-filter=d"
 if ($IncludeRegex) {
   $command = $command + " -- $IncludeRegex"
 }
 Write-Host $command
-$changedFiles = Invoke-Command $command
+$changedFiles = Invoke-Expression -Command $command
 if(!$changedFiles) {
     Write-Host "No changed files in git diff between $TargetCommittish and $SourceCommittish"
 }
